@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCustomerAddressTypesTable extends Migration
+class AddActiveToUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateCustomerAddressTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('customer_address_types', function (Blueprint $table) {
-            $table->id();
-            $table->string('name',15);
-            $table->string('description',90);
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            
+            $table->boolean('active')->default(true)->after('remember_token');
         });
     }
 
@@ -28,6 +26,8 @@ class CreateCustomerAddressTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customer_address_types');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn(['active']);
+        });
     }
 }
