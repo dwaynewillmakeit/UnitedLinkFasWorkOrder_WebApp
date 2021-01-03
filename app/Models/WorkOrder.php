@@ -24,6 +24,11 @@ class WorkOrder extends Model
         return $this->belongsTo('App\Models\ClientAddress', 'billing_address_id', 'id');
     }
 
+    public function materials()
+    {
+        return $this->hasMany('App\Models\WorkOrderMaterial','work_order_guid','guid');
+    }
+
     public function createdBy()
     {
         return $this->belongsTo('App\Models\User', 'created_by', 'id');

@@ -21,9 +21,9 @@ use App\Http\Controllers\WorkOrderController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 //Auth Routes
 Route::get('/login', [LoginController::class, 'index'])->name('login');
@@ -33,12 +33,15 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 //Users
-Route::get('users', [UserController::class, 'index'])->name('users');
-Route::post('users/store', [UserController::class, 'store'])->name('user.store');
-Route::post('users/update', [UserController::class, 'update'])->name('user.update');
+Route::group(['prefix'=>'users','middleware'=>'auth'],function(){
+
+    Route::get('/', [UserController::class, 'index'])->name('users');
+    Route::post('/store', [UserController::class, 'store'])->name('user.store');
+    Route::post('/update', [UserController::class, 'update'])->name('user.update');
+});
 
 
-Route::prefix('clients')->group(function () {
+Route::group(['prefix'=>'clients','middleware'=>'auth'],function () {
     //Clients
     Route::get('/', [ClientController::class, 'index'])->name('clients');
     Route::get('/{id}', [ClientController::class, 'show'])->name('clients.show');
@@ -56,4 +59,7 @@ Route::prefix('clients')->group(function () {
 Route::prefix('workorders')->group(function () {
 
     Route::get('/', [WorkOrderController::class, 'index'])->name('workorders');
+
+    Route::get('/pdf/{workorder}', [WorkOrderController::class,'generatePdf']);
 });
+

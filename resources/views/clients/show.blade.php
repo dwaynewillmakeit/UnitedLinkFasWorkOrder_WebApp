@@ -6,16 +6,16 @@
     <div class="card-header">
       <h3 class="card-title">{{$client->name}}</h3>
 
-  
+
     </div>
-    
+
     <div class="card-body">
 
       <div class="d-sm-flex align-items-center mb-4">
         <div class="ml-auto text-center mr-5">
           <a href="{{route('client.addresses.create',['client_id'=>$client->id])}}" class="btn btn-primary   ">
             <i class="fas fa-plus fa-10x" style="font-size:2rem"></i>
-          
+
           </a>
          <p class="font-weight-bolder">Add Address</p>
 
@@ -35,6 +35,7 @@
                 <th class="font-weight-bold">Date Created</th>
                 <th class="font-weight-bold">Update by</th>
                 <th class="font-weight-bold">Date Updated</th>
+                <th class="font-weight-bold">Status</th>
                 <th></th>
               </tr>
             </thead>
@@ -54,13 +55,18 @@
                     <td>{{date('M d, Y',strtotime($address->created_at))}}</td>
                     <td>{{$address->updatedBy->name}}</td>
                     <td>{{date('M d, Y',strtotime($address->updated_at))}}</td>
+                    <td>@if ($address->active)
+                        <span class="text-success">Active</span>
+                    @else
+                        <span class="text-danger">Inactive </span>
+                    @endif</td>
                     <td><a href="{{route('client.addresses.edit',['id'=>$address->id])}}" class="btn btn-danger">Edit</a></td>
-                  
+
                 </tr>
-                    
+
                 @endforeach
-     
-              
+
+
             </tbody>
           </table>
 
@@ -68,5 +74,5 @@
       </div>
     </div>
 </div>
-    
+
 @endsection

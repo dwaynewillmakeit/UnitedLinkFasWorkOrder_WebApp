@@ -28,20 +28,20 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     Route::post('/login',[LoginCOntroller::class,'login']);
 
 
-    Route::prefix('clients')->group(function(){
+    Route::group(['prefix'=>'clients','middleware'=>'auth:sanctum'],function(){
         //Clients
         Route::get('/',[ClientController::class,'index']);
-        
+
         //Client Address
         Route::get('/addresses',[ClientAddressController::class,'index']);
-        
+
         //Client Address Type
         Route::get('/addresses/types',[ClientAddressTypeController::class,'index']);
 
 
 });
 
-Route::prefix('workorders')->group(function(){
+Route::group(['prefix'=>'workorders','middleware'=>'auth:sanctum'],function(){
 
     Route::post("/",[WorkOrderController::class,'store']);
 });

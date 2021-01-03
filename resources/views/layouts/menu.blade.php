@@ -14,7 +14,7 @@
 </li>
 <li class="nav-item">
     <a href="{{ route('workorders') }}" class="nav-link ">
-        <i class="nav-icon fas fa-building"></i>
+        <i class="fas fa-paste"></i>
         <p> Work Orders</p>
 
     </a>

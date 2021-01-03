@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Models\WorkOrder;
 
+use PDF;
+
 class WorkOrderController extends Controller
 {
     /**
@@ -84,5 +86,31 @@ class WorkOrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function generatePdf(WorkOrder $workorder)
+    {
+
+        // dd($workorder);
+
+        $this->saveSignature($workorder->site_rep_signature,'site-rep',$workorder->id);
+        $this->saveSignature($workorder->technician_signature,'tech-rep',$workorder->id);
+
+
+        // return view ('workorders.pdf.show',compact("workorder"));
+        $pdf = PDF::loadView('workorders.pdf.show',compact('workorder'));
+
+        return $pdf->stream('tutsmake.pdf');
+    }
+
+
+
+    public function saveSignature($signatureBlob,$name,$workorderID)
+    {
+
+        $data = base64_decode($signatureBlob);
+        $image = imagecreatefromstring($data);
+
+        imagejpeg($image, storage_path().'/app/public/signatures/'.$name.$workorderID.".jpg");
     }
 }

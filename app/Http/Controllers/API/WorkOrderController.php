@@ -49,7 +49,7 @@ class WorkOrderController extends Controller
         {
 
           $workOrderId =   DB::transaction(function () use($request){
-                
+
 
                 $workOrder = WorkOrder::where('guid','=',$request['workOrder']['guid'])->first();
 
@@ -77,8 +77,8 @@ class WorkOrderController extends Controller
                 $workOrder->number_of_apprentice    = $request['workOrder']['number_of_apprentice'];
                 $workOrder->hours                   = $request['workOrder']['hours'];
                 $workOrder->travel_hrs              = $request['workOrder']['travel_hrs'];
-                $workOrder->site_rep_signature      = base64_encode(implode($request['workOrder']['site_rep_signature']));
-                $workOrder->technician_signature    = base64_encode(implode($request['workOrder']['technician_signature']));
+                $workOrder->site_rep_signature      = $request['siteRepSignature'];//base64_encode(implode($request['workOrder']['site_rep_signature']));
+                $workOrder->technician_signature    = $request['techSignature'];//base64_encode(implode($request['workOrder']['technician_signature']));
                 $workOrder->created_by              = $request['workOrder']['created_by'];
                 $workOrder->created_at              = $request['workOrder']['created_at'];
                 $workOrder->updated_by              = $request['workOrder']['updated_by'];
@@ -94,12 +94,12 @@ class WorkOrderController extends Controller
                     foreach($request['workOrderMaterialList'] as $requestWorkOrderMaterial)
                     {
                         $workOrderMaterial = WorkOrderMaterial::where('guid','=',$requestWorkOrderMaterial['guid'])->first();
-    
+
                         if(!$workOrderMaterial)
                         {
                             $workOrderMaterial = new WorkOrderMaterial();
                         }
-    
+
                         $workOrderMaterial->guid                    = $requestWorkOrderMaterial['guid'];
                         $workOrderMaterial->work_order_id           = $workOrder->id;
                         $workOrderMaterial->material_description    = $requestWorkOrderMaterial['material_description'];
@@ -131,10 +131,10 @@ class WorkOrderController extends Controller
         {
             return response()->json([
                 'status'    => 'failed',
-                'message'   => $e->getMessage(). " Line: " .$e->getLine() 
+                'message'   => $e->getMessage(). " Line: " .$e->getLine()
             ]);
         }
-      
+
     }
 
     /**

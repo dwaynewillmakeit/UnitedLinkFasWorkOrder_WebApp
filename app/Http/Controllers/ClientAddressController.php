@@ -47,8 +47,8 @@ class ClientAddressController extends Controller
             return back()->with('failed','Failed to load Client record. Please refresh the page and try again');
         }
 
-        
-      
+
+
 
         $states = State::orderBy('name')->get();
         $addressTypes = ClientAddressType::orderBy('name')->get();
@@ -65,10 +65,10 @@ class ClientAddressController extends Controller
     public function store(Request $request)
     {
 
-        
+
         $request->validate(
             [
-                'client_id'      => 'required|integer',
+                'client_id'        => 'required|integer',
                 'address_type'     => 'required|integer',
                 'street'           => 'required|string',
                 'city'             => 'required|string',
@@ -101,6 +101,28 @@ class ClientAddressController extends Controller
 
                 $clientAddress = new ClientAddress();
 
+                if($request->address_type == ClientAddressType::$BILLING_ADDRESS_ID)
+                {
+                    //Only one billing address at a time... Therefore we disable the others
+                    $clientAddresses = ClientAddress::where(
+                        [
+                            ['client_id','=',$client->id],
+                            ['address_type_id','=',$request->address_type],
+                            ['active','=',1]
+                        ])->get();
+
+                        if(count($clientAddresses)>0)
+                        {
+                            foreach($clientAddresses as $address)
+                            {
+                                $address->active = false;
+                                $address->save();
+                            }
+
+                        }
+
+                }
+
                 $clientAddress->address_type_id    = $request->address_type;
                 $clientAddress->client_id        = $client->id;
                 $clientAddress->street             = $request->street;
@@ -113,7 +135,7 @@ class ClientAddressController extends Controller
                 $clientAddress->updated_at         = date('Y-m-d h:i:s');
 
                 $clientAddress->save();
-            
+
             });
 
         return redirect()->route('clients.show',['id'=>$client->id])->with('success','Client\'s address saved successfully');
@@ -167,8 +189,10 @@ class ClientAddressController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        // dd($request->all());
         $request->validate(
-            [                
+            [
                 'address_type'     => 'required|integer',
                 'street'           => 'required|string',
                 'city'             => 'required|string',
@@ -186,7 +210,33 @@ class ClientAddressController extends Controller
             try{
 
                 DB::transaction(function () use($request,$clientAddress) {
-                
+
+
+                if(
+                    $request->address_type == ClientAddressType::$BILLING_ADDRESS_ID
+                    && !$clientAddress->active
+                    && $request->active =='1'
+                    )
+                {
+                    //Only one billing address at a time... Therefore we disable the others
+                    $clientAddresses = ClientAddress::where(
+                        [
+                            ['address_type_id','=',$request->address_type],
+                            ['active','=',1]
+                        ])->get();
+
+                        if(count($clientAddresses)>0)
+                        {
+                            foreach($clientAddresses as $address)
+                            {
+                                $address->active = false;
+                                $address->save();
+                            }
+
+                        }
+
+                }
+
                     $clientAddress->address_type_id    = $request->address_type;
                     $clientAddress->street             = $request->street;
                     $clientAddress->city               = $request->city;
@@ -194,7 +244,8 @@ class ClientAddressController extends Controller
                     $clientAddress->zipcode            = $request->zipcode;
                     $clientAddress->updated_by         = Auth::user()->id;
                     $clientAddress->updated_at         = date('Y-m-d h:i:s');
-    
+                    $clientAddress->active             = $request->active;
+
                     $clientAddress->save();
                 });
 
@@ -203,10 +254,10 @@ class ClientAddressController extends Controller
 
             }catch(\Exception $e)
             {
-                return back()->with('failed','Failed to save client\'s address. Error message: '.$e->getMessage());
+                return back()->with('failed','Failed to save client\'s address. Error message: '.$e->getMessage()." Line: " .$e->getLine());
 
             }
-           
+
 
 
     }
