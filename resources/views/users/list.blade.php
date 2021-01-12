@@ -10,7 +10,7 @@
             <div class="ml-auto text-center mr-5">
               <button href="#" data-toggle="modal" data-target="#addUserModal" class="btn btn-success   mb-3 mb-sm-0 btn-circle ">
                 <i class="fas fa-plus fa-10x" style="font-size:2rem"></i>
-              
+
               </button>
              <p class="font-weight-bolder">Add User</p>
 
@@ -30,7 +30,7 @@
                   <th class="font-weight-bold">Date Creatded</th>
                   <th class="font-weight-bold">Modified By</th>
                   <th class="font-weight-bold">Date Modified</th>
-                 
+
                   <th></th>
                 </tr>
               </thead>
@@ -70,24 +70,24 @@
                   <td>{{date('M d, Y h:m:a',strtotime($user->created_at))}}</td>
                   <td>{{$user->updated_by}}</td>
                   <td>{{date('M d, Y  h:m:a',strtotime($user->updated_at))}}</td>
-                  <td><a  href="#"class="btn btn-primary btn-xs" data-target="#editUserModal" data-toggle="modal" >Edit</a>
+                  <td><a  href="#"class="btn btn-primary btn-xs" data-target="#editUserModal" data-toggle="modal"  onclick="populateEditModal('{{$user->toJson()}}')">Edit</a>
                   {{-- onclick="populateEditModal('{{$user}}')" --}}
-               
+
                   </td>
                 </tr>
                 @endforeach
-                
+
               </tbody>
             </table>
           </div>
-       
+
         </div>
     </div>
 
     @include('users.modals.add-user')
     @include('users.modals.edit-user')
 
-    
+
 @endsection
 
 @section('scripts')
@@ -110,53 +110,22 @@
     inputEditEmail.value = user.email;
     inputEditUID.value = user.id;
 
-    const selectRole = document.querySelector('#selectRole');
-    const selectOptions = selectRole.options;
-    const chxboxCbRep = document.querySelector("#cbRep");
+    // const selectRole = document.querySelector('#selectRole');
+    // const selectOptions = selectRole.options;
+    // const chxboxCbRep = document.querySelector("#cbRep");
 
-    // console.log(user.roles)
-    if(user.roles != undefined && user.roles.length >0)
-    {
-      //Get Role Select Input
-      const selectRole = document.querySelector('#selectRole');
-      const selectOptions = selectRole.options;
-
-      const selectAccountStatus = document.querySelector('#selectAccountStatus');
-
-      console.log(selectOptions.length);
-
-      for(i = 0; i<selectOptions.length; i++)
-      {
-        if(selectOptions[i].value==user.roles[0].id)
-        {
-          selectOptions[i].selected = true;
-        }
-      
-      }
-      // console.log(user.roles[0].id);
-    }else{
-      selectOptions[0].selected = true;
-
-    }
-
-    if(user.is_cb_farm_rep == true)
-    {
-      chxboxCbRep.checked =true;
-    }else{
-      chxboxCbRep.checked =false;
-    }
 
     for(i = 0; i<selectAccountStatus.options.length; i++)
-      {
+    {
         if(selectAccountStatus.options[i].value==user.active)
         {
-          selectAccountStatus.options[i].selected = true;
+            selectAccountStatus.options[i].selected = true;
         }
-      
-      }
-   
+
+    }
+
 
   }
 </script>
-    
+
 @endsection

@@ -14,27 +14,32 @@
                             <label for="name">Name:</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" required>
                         </div>
-               
-                       
+
+
 
                        <div class="form-group">
                           <label for="email">Email</label>
-                          <input type="text" name="email" class="form-control" id="email" placeholder="Email" >
+                          <input type="email" name="email" class="form-control" id="email" placeholder="Email" >
                        </div>
 
-                      
+                       <div class="form-group">
+                          <label for="password">Password</label>
+                          <input type="password" name="password" class="form-control" id="password" placeholder="Password" >
+                       </div>
+
+
                        {{-- <div class="form-group">
                           <label for="">Assign Roles</label>
                           <select class="form-control" id="" name="role">
                             <option value="0">Select Role</option>
                             @foreach ($roles as $role)
-                               <option value="{{$role->id}}">{{$role->name}} </option> 
+                               <option value="{{$role->id}}">{{$role->name}} </option>
                             @endforeach
-                            
+
                           </select>
                       </div> --}}
-                   
-       
+
+
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               <button type="submit" class="btn btn-primary">Create User Account</button>
@@ -43,3 +48,4 @@
           </div>
         </div>
       </div>
+</div>

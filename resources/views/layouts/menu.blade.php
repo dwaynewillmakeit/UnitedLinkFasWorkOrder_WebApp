@@ -35,17 +35,14 @@
           <p>Users</p>
         </a>
       </li>
-      <li class="nav-item">
-        <a href="pages/charts/flot.html" class="nav-link">
-          <i class="far fa-circle nav-icon"></i>
-          <p>Flot</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="pages/charts/inline.html" class="nav-link">
-          <i class="far fa-circle nav-icon"></i>
-          <p>Inline</p>
-        </a>
-      </li>
+
     </ul>
   </li>
+
+<li class="nav-item">
+    <a href="{{ route('downloads') }}" class="nav-link ">
+        <i class="fas fa-download"></i>
+        <p> Downloads</p>
+
+    </a>
+</li>

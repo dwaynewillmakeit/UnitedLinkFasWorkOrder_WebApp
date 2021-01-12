@@ -16,10 +16,23 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'name'=> 'Administrator',
-            'email'=> 'admin@unitedlinkfas.com',
-            'password'=>Hash::make('admin')
-        ]);
+        DB::table('users')->insert(
+          [
+            [
+                'name'=> 'Administrator',
+                'email'=> 'admin@unitedlinkfas.com',
+                'password'=>Hash::make('admin'),
+                'created_at' => date('Y-m-d'),
+                'updated_at' => date('Y-m-d'),
+            ],
+            [
+                'name'          => 'Kirk Remekie',
+                'email'         => 'kremekie@unitedlinkfas.com',
+                'password'      => Hash::make('remekie01'),
+                'created_at'    => date('Y-m-d'),
+                'updated_at'    => date('Y-m-d'),
+            ],
+          ]
+    );
     }
 }

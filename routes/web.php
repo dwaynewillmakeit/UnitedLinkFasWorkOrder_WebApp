@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientAddressController;
 use App\Http\Controllers\WorkOrderController;
+use App\Http\Controllers\HomeController;
 
 
 
@@ -21,9 +22,9 @@ use App\Http\Controllers\WorkOrderController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return redirect()->route('login');
+});
 
 //Auth Routes
 Route::get('/login', [LoginController::class, 'index'])->name('login');
@@ -62,4 +63,6 @@ Route::prefix('workorders')->group(function () {
 
     Route::get('/pdf/{workorder}', [WorkOrderController::class,'generatePdf']);
 });
+
+Route::get('/downloads', [HomeController::class,'viewDownloads'])->name('downloads')->middleware('auth');
 
