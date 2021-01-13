@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\ClientController;
 use App\Http\Controllers\API\ClientAddressController;
 use App\Http\Controllers\API\ClientAddressTypeController;
-use App\Http\Controllers\API\LoginCOntroller;
+use App\Http\Controllers\API\LoginController;
 use App\Http\Controllers\API\WorkOrderController;
 
 /*
@@ -25,7 +25,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
     //Auth Routes
-    Route::post('/login',[LoginCOntroller::class,'login']);
+    Route::post('/login',[LoginController::class,'login']);
 
 
     Route::group(['prefix'=>'clients','middleware'=>'auth:sanctum'],function(){

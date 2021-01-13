@@ -25,7 +25,7 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td><p><a href="{{asset('storage/apks/ChickenIn-v1.0.8.apk')}}" class="btn btn-primary btn-small">Mobile App</a></p></td>
+                        <td><p><a href="{{asset('storage/apks/ulinc_0.0.1.apk')}}" class="btn btn-primary btn-small">Mobile App</a></p></td>
                         <td> <p>0.0.0</p></td>
                         <td><p></p></td>
                         {{-- <td><a href="{{asset('storage/apks/ChickenIn-v1.0.1.apk')}}" class="btn btn-primary btn-small">Download</a></td> --}}
